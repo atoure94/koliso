@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 import {borderRadius, fontSize, fontWeight, spacing, useTheme} from "../../../config/theme/ThemeConfig";
 import {useNavigation} from "@react-navigation/native";
+import {Image} from 'react-native';
+import {signup} from "../../../services/authentication/authService";
 
 
 export function RegistrationScreen() {
@@ -21,35 +23,35 @@ export function RegistrationScreen() {
 
     const navigation = useNavigation();
 
-    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [firstName, setFirstName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleRegistration = async () => {
-        if (!phoneNumber.trim()) {
-            Alert.alert('Erreur', 'Veuillez entrer votre numéro de téléphone');
-            return;
-        }
-        if (!password.trim()) {
-            Alert.alert('Erreur', 'Veuillez entrer votre mot de passe');
+        
+        if(!firstName || !lastName || !phone || !password || !confirmPassword) {
+            Alert.alert('Erreur', 'Veuillez remplir tous les champs');
             return;
         }
         if (password !== confirmPassword) {
             Alert.alert('Mots de passe differents')
+            return;
         }
 
         setIsLoading(true);
 
-        // Simulation d'une requête
-        setTimeout(() => {
+       try {
+            await signup({ firstName, lastName, phone, password });
+            // Naviguer vers l'écran OTP en passant le numéro de téléphone
+            navigation.navigate('OTPVerification', { phone });
+        } catch (error: any) {
+            Alert.alert('Erreur', error.message);
+        } finally {
             setIsLoading(false);
-            console.log('Registration attempt:', {firstName, name, phoneNumber, password});
-            // Alert.alert('Enregistrement', 'Tentative...');
-            navigation.navigate('Home');
-        }, 1000);
+        }
     };
 
     return (
@@ -71,6 +73,12 @@ export function RegistrationScreen() {
                             <Text style={styles.subtitle}>Créer un compte</Text>
                         </View>
 
+   <View style={{ alignItems: 'center', marginBottom: 10 }}>
+        <Image
+            source={require('../../../assets/delivery-bike.png')}
+            style={{ width: 180, height: 180, resizeMode: 'contain' }}
+        />
+    </View>
                         {/* Toggle theme button */}
                         <TouchableOpacity
                             style={styles.themeToggle}
@@ -106,12 +114,12 @@ export function RegistrationScreen() {
                             <TextInput
                                 style={[
                                     styles.input,
-                                    name && styles.inputFilled
+                                    lastName && styles.inputFilled
                                 ]}
                                 placeholder="Entrez votre nom"
                                 placeholderTextColor={theme.text.tertiary}
-                                value={name}
-                                onChangeText={setName}
+                                value={lastName}
+                                onChangeText={setLastName}
                                 autoCorrect={false}
                             />
                         </View>
@@ -120,13 +128,13 @@ export function RegistrationScreen() {
                             <TextInput
                                 style={[
                                     styles.input,
-                                    phoneNumber && styles.inputFilled
+                                    phone && styles.inputFilled
                                 ]}
                                 placeholder="Entrez votre numéro"
                                 placeholderTextColor={theme.text.tertiary}
                                 keyboardType="phone-pad"
-                                value={phoneNumber}
-                                onChangeText={setPhoneNumber}
+                                value={phone}
+                                onChangeText={setPhone}
                                 autoCapitalize="none"
                                 autoCorrect={false}
                             />

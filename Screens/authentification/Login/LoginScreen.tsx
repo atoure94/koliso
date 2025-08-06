@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 import {borderRadius, fontSize, fontWeight, spacing, useTheme} from "../../../config/theme/ThemeConfig";
 import {useNavigation} from "@react-navigation/native";
+import {login} from "../../../services/authentication/authService";
+import {Image} from 'react-native';
 
 
 const {width} = Dimensions.get('window');
@@ -24,29 +26,31 @@ export function LoginScreen() {
 
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleLogin = async () => {
-        if (!phoneNumber.trim()) {
-            Alert.alert('Erreur', 'Veuillez entrer votre numéro de téléphone');
-            return;
-        }
-        if (!password.trim()) {
-            Alert.alert('Erreur', 'Veuillez entrer votre mot de passe');
-            return;
-        }
+    if (!phoneNumber.trim()) {
+        Alert.alert('Erreur', 'Veuillez entrer votre numéro de téléphone');
+        return;
+    }
+    if (!password.trim()) {
+        Alert.alert('Erreur', 'Veuillez entrer votre mot de passe');
+        return;
+    }
 
-        setIsLoading(true);
+    setIsLoading(true);
 
-        // Simulation d'une requête
-        setTimeout(() => {
-            setIsLoading(false);
-            console.log('Login attempt:', {phoneNumber, password});
-
-            navigation.navigate('Home')
-            // Alert.alert('Connexion', 'Tentative de connexion...');
-        }, 1000);
-    };
+    try {
+        await login(phoneNumber, password);
+        Alert.alert('Succès', 'Connexion réussie');
+        navigation.navigate('Home');
+    } catch (error: any) {
+        Alert.alert('Erreur', error.message);
+    } finally {
+        setIsLoading(false);
+    }
+};
 
     return (
         <KeyboardAvoidingView
@@ -56,11 +60,19 @@ export function LoginScreen() {
         >
             <SafeAreaView style={styles.container}>
                 {/* Header avec gradient subtil */}
+            
                 <View style={styles.header}>
                     <View style={styles.headerGradient}>
                         <Text style={styles.title}>Bienvenue</Text>
                         <Text style={styles.subtitle}>Connectez-vous à votre compte</Text>
                     </View>
+
+                     <View style={{ alignItems: 'center', marginBottom: 10 }}>
+        <Image
+            source={require('../../../assets/delivery-bike.png')}
+            style={{ width: 180, height: 180, resizeMode: 'contain' }}
+        />
+    </View>
 
                     {/* Toggle theme button */}
                     <TouchableOpacity
@@ -95,21 +107,32 @@ export function LoginScreen() {
                     </View>
 
                     <View style={styles.inputWrapper}>
-                        <Text style={styles.inputLabel}>Mot de passe</Text>
-                        <TextInput
-                            style={[
-                                styles.input,
-                                password && styles.inputFilled
-                            ]}
-                            placeholder="Entrez votre mot de passe"
-                            placeholderTextColor={theme.text.tertiary}
-                            secureTextEntry={true}
-                            value={password}
-                            onChangeText={setPassword}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                        />
-                    </View>
+        <Text style={styles.inputLabel}>Mot de passe</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TextInput
+                style={[
+                    styles.input,
+                    password && styles.inputFilled,
+                    { flex: 1 }
+                ]}
+                placeholder="Entrez votre mot de passe"
+                placeholderTextColor={theme.text.tertiary}
+                secureTextEntry={!showPassword}
+                value={password}
+                onChangeText={setPassword}
+                autoCapitalize="none"
+                autoCorrect={false}
+            />
+            <TouchableOpacity
+                onPress={() => setShowPassword(!showPassword)}
+                style={{ marginLeft: 8, padding: 4 }}
+            >
+                <Text style={{ color: theme.text.secondary }}>
+                    {showPassword ? '🙈' : '👁️'}
+                </Text>
+            </TouchableOpacity>
+        </View>
+    </View>
                 </View>
 
                 {/* Options additionnelles */}
