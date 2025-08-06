@@ -50,3 +50,15 @@ export async function resendOtp(phone: string) {
     throw new Error('Erreur lors de l\'envoi du code OTP');
   }
 }
+
+export async function sendForgotPasswordOtp(phone: string) {
+    try {
+        const response = await api.post('/auth/forgot-password', { phone });
+        return response.data; // { message: 'Un code a été envoyé à votre téléphone.' }
+    } catch (error: any) {
+        if (error.response?.data?.message) {
+            throw new Error(error.response.data.message);
+        }
+        throw new Error('Erreur lors de l\'envoi du code OTP');
+    }
+}
