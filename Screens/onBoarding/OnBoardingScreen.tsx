@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import {View, Text, Image, TouchableOpacity, Dimensions, Animated, ScrollView, StatusBar} from 'react-native';
-import {ChevronRight, MapPin, Clock, Truck, Sun, Moon} from 'lucide-react-native';
+import React, {useRef, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {Animated, Dimensions, ScrollView, StatusBar, Text, TouchableOpacity, View} from 'react-native';
+import {ChevronRight, Clock, MapPin, Moon, Sun, Truck} from 'lucide-react-native';
 import {darkTheme, lightTheme} from "../../config/theme/ThemeConfig";
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const OnBoardingScreen = () => {
     const navigation = useNavigation();
@@ -20,21 +20,21 @@ const OnBoardingScreen = () => {
             id: 1,
             title: "Livraison Rapide",
             subtitle: "Recevez vos commandes en moins de 30 minutes",
-            icon: <Truck size={80} color={theme.iconColors[0]} />,
+            icon: <Truck size={80} color={theme.iconColors[0]}/>,
             bgColor: theme.background.slides[0]
         },
         {
             id: 2,
             title: "Suivi en Temps Réel",
             subtitle: "Suivez votre commande de la préparation à la livraison",
-            icon: <MapPin size={80} color={theme.iconColors[1]} />,
+            icon: <MapPin size={80} color={theme.iconColors[1]}/>,
             bgColor: theme.background.slides[1]
         },
         {
             id: 3,
             title: "Disponible 24/7",
             subtitle: "Commandez à tout moment, nous sommes toujours là",
-            icon: <Clock size={80} color={theme.iconColors[2]} />,
+            icon: <Clock size={80} color={theme.iconColors[2]}/>,
             bgColor: theme.background.slides[2]
         }
     ];
@@ -96,8 +96,8 @@ const OnBoardingScreen = () => {
     };
 
     return (
-        <View style={{ flex: 1, backgroundColor: slides[currentSlide].bgColor }}>
-            <StatusBar barStyle="default" backgroundColor={slides[currentSlide].bgColor} />
+        <View style={{flex: 1, backgroundColor: slides[currentSlide].bgColor}}>
+            <StatusBar barStyle="default" backgroundColor={slides[currentSlide].bgColor}/>
 
             {/* Header */}
             <View style={{
@@ -118,7 +118,7 @@ const OnBoardingScreen = () => {
                     </Text>
                 </TouchableOpacity>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     {slides.map((_, index) => (
                         <Animated.View
                             key={index}
@@ -161,16 +161,16 @@ const OnBoardingScreen = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         shadowColor: '#000',
-                        shadowOffset: { width: 0, height: 4 },
+                        shadowOffset: {width: 0, height: 4},
                         shadowOpacity: isDark ? 0.3 : 0.15,
                         shadowRadius: 8,
                         elevation: 6
                     }}
                 >
                     {isDark ? (
-                        <Sun size={24} color="#FBBF24" />
+                        <Sun size={24} color="#FBBF24"/>
                     ) : (
-                        <Moon size={24} color="#64748B" />
+                        <Moon size={24} color="#64748B"/>
                     )}
                 </TouchableOpacity>
             </View>
@@ -182,7 +182,7 @@ const OnBoardingScreen = () => {
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 scrollEnabled={false}
-                style={{ flex: 1 }}
+                style={{flex: 1}}
             >
                 {slides.map((slide, index) => (
                     <Animated.View
@@ -206,7 +206,7 @@ const OnBoardingScreen = () => {
                             justifyContent: 'center',
                             marginBottom: 60,
                             shadowColor: '#000',
-                            shadowOffset: { width: 0, height: 10 },
+                            shadowOffset: {width: 0, height: 10},
                             shadowOpacity: isDark ? 0.3 : 0.1,
                             shadowRadius: 20,
                             elevation: 10
@@ -247,16 +247,16 @@ const OnBoardingScreen = () => {
                 paddingTop: 20
             }}>
                 {currentSlide === slides.length - 1 ? (
-                    <View style={{ gap: 15 }}>
+                    <View style={{gap: 15}}>
                         <TouchableOpacity
-                            onPress={()=> navigation.navigate('Home')}
+                            onPress={() => navigation.navigate('Registration')}
                             style={{
                                 backgroundColor: theme.primary.main,
                                 paddingVertical: 18,
                                 borderRadius: 16,
                                 alignItems: 'center',
                                 shadowColor: theme.primary.main,
-                                shadowOffset: { width: 0, height: 8 },
+                                shadowOffset: {width: 0, height: 8},
                                 shadowOpacity: 0.3,
                                 shadowRadius: 16,
                                 elevation: 8
@@ -272,6 +272,7 @@ const OnBoardingScreen = () => {
                         </TouchableOpacity>
 
                         <TouchableOpacity
+                            onPress={() => navigation.navigate('Login')}
                             style={{
                                 paddingVertical: 18,
                                 borderRadius: 16,
@@ -302,7 +303,7 @@ const OnBoardingScreen = () => {
                             flexDirection: 'row',
                             justifyContent: 'center',
                             shadowColor: theme.primary.main,
-                            shadowOffset: { width: 0, height: 8 },
+                            shadowOffset: {width: 0, height: 8},
                             shadowOpacity: 0.3,
                             shadowRadius: 16,
                             elevation: 8
@@ -316,7 +317,7 @@ const OnBoardingScreen = () => {
                         }}>
                             Suivant
                         </Text>
-                        <ChevronRight size={20} color={theme.primary.contrast} />
+                        <ChevronRight size={20} color={theme.primary.contrast}/>
                     </TouchableOpacity>
                 )}
             </View>
