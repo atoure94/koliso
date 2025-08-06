@@ -1,10 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Animated, Dimensions, Image, StyleSheet, View} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
+import { RootStackParamList } from '../../App';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const SplashScreen = () => {
     const [animationPhase, setAnimationPhase] = useState('idle');
-    const navigation = useNavigation();
+
+     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
     // Références pour les animations
     const translateX = useRef(new Animated.Value(0)).current;
@@ -77,7 +80,7 @@ const SplashScreen = () => {
             ]);
 
             // Démarrer l'animation
-            fullSequence.start(() => navigation.navigate('OnBoarding'));
+            fullSequence.start(() => navigation.navigate('AuthLoading'));
 
             // Changer les phases pour le texte
             setTimeout(() => setAnimationPhase('starting'), 500);

@@ -13,8 +13,10 @@ import {
 } from 'react-native';
 import {borderRadius, fontSize, fontWeight, spacing, useTheme} from "../../../config/theme/ThemeConfig";
 import {useNavigation} from "@react-navigation/native";
+import type { StackNavigationProp } from '@react-navigation/stack';
 import {login} from "../../../services/authentication/authService";
 import {Image} from 'react-native';
+import { RootStackParamList } from '../../../App';
 
 
 const {width} = Dimensions.get('window');
@@ -22,7 +24,7 @@ const {width} = Dimensions.get('window');
 export function LoginScreen() {
     const {theme, isDark, toggleTheme} = useTheme();
     const styles = createThemedStyles(theme);
-    const navigation = useNavigation();
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
@@ -197,7 +199,7 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
 
     title: {
         fontSize: fontSize['4xl'],
-        fontWeight: fontWeight.bold,
+        fontWeight: 'bold',
         color: theme.text.primary,
         marginBottom: spacing.xs,
         textAlign: 'center',
@@ -205,7 +207,7 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
 
     subtitle: {
         fontSize: fontSize.lg,
-        fontWeight: fontWeight.normal,
+        fontWeight: "normal",
         color: theme.text.secondary,
         textAlign: 'center',
         lineHeight: fontSize.lg * 1.4,
@@ -244,7 +246,7 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
 
     inputLabel: {
         fontSize: fontSize.sm,
-        fontWeight: fontWeight.medium,
+        fontWeight: '500',
         color: theme.text.secondary,
         marginBottom: spacing.xs,
         marginLeft: spacing.xs,
@@ -279,7 +281,7 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
     forgotPasswordText: {
         fontSize: fontSize.sm,
         color: theme.text.link,
-        fontWeight: fontWeight.medium,
+        fontWeight: '500',
     },
 
     buttonContainer: {
@@ -311,7 +313,7 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
     loginButtonText: {
         color: theme.primary.contrast,
         fontSize: fontSize.lg,
-        fontWeight: fontWeight.semibold,
+        fontWeight: "600",
     },
 
     secondaryButton: {
@@ -329,7 +331,7 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
     secondaryButtonText: {
         color: theme.text.secondary,
         fontSize: fontSize.base,
-        fontWeight: fontWeight.medium,
+        fontWeight: "500",
     },
 
     footer: {
@@ -347,6 +349,6 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
 
     linkText: {
         color: theme.text.link,
-        fontWeight: fontWeight.medium,
+        fontWeight: '500',
     },
 });

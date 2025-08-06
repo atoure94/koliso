@@ -8,9 +8,12 @@ import {RegistrationScreen} from "./Screens/authentification/registration/Regist
 import SplashScreen from "./config/splashScreen/SplashScreen";
 import {OtpVerificationScreen} from "./Screens/authentification/otp/OtpVerificationScreen";
 import {ForgotPasswordScreen} from "./Screens/authentification/forgotPassword/forgotPasswordScreen";
+import BottomTabs from './config/bottom_nav/BottomTabs';
+import AuthLoading from './config/authVerif/AuthLoading';
 
 
 export type RootStackParamList = {
+    AuthLoading: undefined;
     Splash: undefined;
     OnBoarding: undefined;
     Login: undefined;
@@ -28,13 +31,13 @@ export default function App() {
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Splash">
                 <Stack.Screen name="Splash" component={SplashScreen} options={{headerShown: false}}/>
+                <Stack.Screen name="AuthLoading" component={AuthLoading} options={{headerShown: false}}/>
                 <Stack.Screen name="OnBoarding" component={OnBoardingScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="Registration" component={RegistrationScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="OTPVerification" component={OtpVerificationScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{headerShown: false}}/>
-
-                <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
+                <Stack.Screen name="Home" component={BottomTabs} options={{headerShown: false}}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -3,14 +3,16 @@ import {useNavigation} from '@react-navigation/native';
 import {Animated, Dimensions, ScrollView, StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import {ChevronRight, Clock, MapPin, Moon, Sun, Truck} from 'lucide-react-native';
 import {darkTheme, lightTheme} from "../../config/theme/ThemeConfig";
+import { RootStackParamList } from '../../App';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 const {width, height} = Dimensions.get('window');
 
 const OnBoardingScreen = () => {
-    const navigation = useNavigation();
+     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isDark, setIsDark] = useState(false);
-    const scrollViewRef = useRef(null);
+    const scrollViewRef = useRef<ScrollView>(null);
     const fadeAnim = useRef(new Animated.Value(1)).current;
 
     const theme = isDark ? darkTheme : lightTheme;

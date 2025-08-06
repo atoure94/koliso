@@ -1,8 +1,16 @@
 import { api } from '../api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export async function login(phone: string, password: string) {
     try {
         const response = await api.post('/auth/login', { phone, password });
+        const { access_token, user } = response.data;
+        if (access_token) {
+            await AsyncStorage.setItem('access_token', access_token);
+        }
+        if (user) {
+            await AsyncStorage.setItem('user', JSON.stringify(user));
+        }
         return response.data;
     } catch (error: any) {
         if (error.response?.status === 401 || error.response?.status === 400) {
@@ -14,6 +22,7 @@ export async function login(phone: string, password: string) {
         throw new Error('Erreur de connexion');
     }
 }
+
 
 export async function signup(data: { firstName: string; lastName: string; phone: string; password: string }) {
   try {
@@ -30,6 +39,13 @@ export async function signup(data: { firstName: string; lastName: string; phone:
 export async function verifyOtp(phone: string, otp: string) {
   try {
     const response = await api.post('/auth/verify-otp', { phone, otp });
+    const { access_token, user } = response.data;
+    if (access_token) {
+      await AsyncStorage.setItem('access_token', access_token);
+    }
+    if (user) {
+      await AsyncStorage.setItem('user', JSON.stringify(user));
+    }
     return response.data; // { access_token, user }
   } catch (error: any) {
     if (error.response?.data?.message) {
@@ -61,4 +77,9 @@ export async function sendForgotPasswordOtp(phone: string) {
         }
         throw new Error('Erreur lors de l\'envoi du code OTP');
     }
+}
+
+export async function logout() {
+    await AsyncStorage.removeItem('access_token');
+    await AsyncStorage.removeItem('user');
 }

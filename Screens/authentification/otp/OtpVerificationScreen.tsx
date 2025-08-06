@@ -15,8 +15,11 @@ import { fontSize, fontWeight, spacing, useTheme } from '../../../config/theme/T
 import { Image } from 'react-native';
 import { verifyOtp } from '../../../services/authentication/authService';
 import { resendOtp } from '../../../services/authentication/authService';
+import { OtpVerificationScreenProps } from '../../../constants/interfaces/auth';
 
-export function OtpVerificationScreen({ route, navigation }) {
+
+
+export function OtpVerificationScreen({ route, navigation }: OtpVerificationScreenProps) {
     const { theme } = useTheme();
     const styles = createThemedStyles(theme);
 
@@ -27,6 +30,10 @@ const phone = route.params?.phone;
     const handleVerify = async () => {
         if (otp.length < 4) {
             Alert.alert('Erreur', 'Veuillez entrer le code OTP reçu');
+            return;
+        }
+        if (!phone) {
+            Alert.alert('Erreur', 'Numéro de téléphone manquant');
             return;
         }
         setIsLoading(true);
@@ -40,6 +47,10 @@ const phone = route.params?.phone;
         }
     };
     const handleResendOtp = async () => {
+        if (!phone) {
+            Alert.alert('Erreur', 'Numéro de téléphone manquant');
+            return;
+        }
         try {
             await resendOtp(phone);
             Alert.alert('Succès', 'Code OTP renvoyé avec succès');
@@ -118,12 +129,12 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
     },
     title: {
         fontSize: fontSize['3xl'],
-        fontWeight: fontWeight.bold,
+        fontWeight: 'bold',
         color: theme.text.primary,
         marginBottom: spacing.sm,
     },
     subtitle: {
-        fontSize: fontSize.md,
+        fontSize: fontSize.base,
         color: theme.text.secondary,
         textAlign: 'center',
     },
@@ -157,7 +168,7 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
     verifyButtonText: {
         color: theme.primary.contrast,
         fontSize: fontSize.lg,
-        fontWeight: fontWeight.semibold,
+        fontWeight: '600',
     },
     resendContainer: {
         alignItems: 'center',
@@ -166,6 +177,6 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
     resendText: {
         color: theme.text.link,
         fontSize: fontSize.base,
-        fontWeight: fontWeight.medium,
+        fontWeight: '500',
     },
 });

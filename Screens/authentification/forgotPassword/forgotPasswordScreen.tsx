@@ -13,8 +13,9 @@ import {
 } from 'react-native';
 import { fontSize, fontWeight, spacing, useTheme } from '../../../config/theme/ThemeConfig';
 import { sendForgotPasswordOtp } from '../../../services/authentication/authService';
+import { ForgotPasswordScreenProps } from '../../../constants/interfaces/auth';
 
-export function ForgotPasswordScreen({ navigation }) {
+export function ForgotPasswordScreen({ navigation }: ForgotPasswordScreenProps) {
     const { theme } = useTheme();
     const styles = createThemedStyles(theme);
 
@@ -102,12 +103,12 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
     },
     title: {
         fontSize: fontSize['3xl'],
-        fontWeight: fontWeight.bold,
+        fontWeight: "bold",
         color: theme.text.primary,
         marginBottom: spacing.sm,
     },
     subtitle: {
-        fontSize: fontSize.md,
+        fontSize: fontSize.base,
         color: theme.text.secondary,
         textAlign: 'center',
     },
@@ -139,6 +140,6 @@ const createThemedStyles = (theme: any) => StyleSheet.create({
     sendButtonText: {
         color: theme.primary.contrast,
         fontSize: fontSize.lg,
-        fontWeight: fontWeight.semibold,
+        fontWeight: "600",
     },
 });
